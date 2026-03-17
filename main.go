@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -115,6 +114,6 @@ func main() {
 	})
 
 	// 3. สั่งรัน Gin แค่จุดเดียวจบ (บรรทัดนี้จะ Blocking เอง)
-	fmt.Printf("Server is starting on port %s...\n", port)
+	//fmt.Printf("Server is starting on port %s...\n", port)
 	r.Run(":" + port)
 }
