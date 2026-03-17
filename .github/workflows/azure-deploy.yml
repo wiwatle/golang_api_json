@@ -37,4 +37,4 @@ jobs:
       uses: azure/webapps-deploy@v3
       with:
         app-name: 'golang001'
-        images: 'mygolangapiroot.azurecr.io/my-go-api:${{ github.sha }}'
+        #images: 'mygolangapiroot.azurecr.io/my-go-api:${{ github.sha }}'
