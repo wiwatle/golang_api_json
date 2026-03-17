@@ -2,11 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
-
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,16 +43,24 @@ func writeGroups(groups []Group) error {
 
 func main() {
 
-	// ต้องมีบรรทัดนี้เพื่อรองรับหน้าแรก
+	// 1. กำหนด Route หน้าแรก
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to My Go API!")
+		fmt.Fprint(w, "Hello from Azure!")
 	})
 
+	// 2. ดึง Port จาก Environment (ถ้าไม่มีให้ใช้ 8080)
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Default for local dev
+		port = "8080"
 	}
-	http.ListenAndServe(":"+port, nil)
+
+	fmt.Printf("Server is starting on port %s...\n", port)
+
+	// 3. เริ่มรัน Server (ต้องระบุ : เพื่อให้รับได้ทุก IP)
+	err := http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		fmt.Println("Error starting server:", err)
+	}
 
 	r := gin.Default()
 
