@@ -39,6 +39,13 @@ func writeGroups(groups []Group) error {
 }
 
 func main() {
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default for local dev
+	}
+	http.ListenAndServe(":"+port, nil)
+
 	r := gin.Default()
 
 	// GET: ดึงข้อมูลทั้งหมด
@@ -98,5 +105,5 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
 	})
 
-	r.Run(":8080")
+	r.Run(":" + port)
 }
