@@ -5,7 +5,7 @@ FROM golang:1.26-alpine AS builder
 # ติดตั้ง git เผื่อไว้สำหรับบาง library
 RUN apk add --no-cache git
 
-WORKDIR /app
+#WORKDIR /app
 
 COPY go.mod ./
 COPY go.sum ./  
