@@ -16,6 +16,7 @@ COPY . .
 
 # Build ไฟล์ binary
 RUN GOOS=linux GOARCH=amd64 go build -o /app/main .
+ENTRYPOINT [/app/app]
 
 # --- STAGE 2: Run ---
 FROM alpine:latest
