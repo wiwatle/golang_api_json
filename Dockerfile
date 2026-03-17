@@ -11,7 +11,7 @@ COPY . .
 # Step 2: Run the binary
 FROM alpine:latest
 WORKDIR /root/
-COPY --from=builder /app/main .
+COPY --from=builder /main .
 # Azure App Service จะส่ง PORT มาให้เอง
 EXPOSE 8080
 CMD ["./main"]
