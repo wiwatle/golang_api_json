@@ -6,8 +6,12 @@ import (
 	"os"
 	"strconv"
 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
+
+// นี่คือการประกาศใช้งาน fmt
 
 // Task โครงสร้างข้อมูลของเรา
 type Group struct {
@@ -39,6 +43,11 @@ func writeGroups(groups []Group) error {
 }
 
 func main() {
+
+	// ต้องมีบรรทัดนี้เพื่อรองรับหน้าแรก
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to My Go API!")
+	})
 
 	port := os.Getenv("PORT")
 	if port == "" {
