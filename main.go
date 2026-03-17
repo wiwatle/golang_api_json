@@ -43,26 +43,19 @@ func writeGroups(groups []Group) error {
 
 func main() {
 
-	// 1. กำหนด Route หน้าแรก
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello from Azure!")
-	})
-
-	// 2. ดึง Port จาก Environment (ถ้าไม่มีให้ใช้ 8080)
+	// 1. ดึง Port จาก Environment
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
 
-	fmt.Printf("Server is starting on port %s...\n", port)
-
-	// 3. เริ่มรัน Server (ต้องระบุ : เพื่อให้รับได้ทุก IP)
-	err := http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		fmt.Println("Error starting server:", err)
-	}
-
+	// 2. สร้าง Gin Engine (ใช้ตัวนี้แทน http.HandleFunc เดิม)
 	r := gin.Default()
+
+	// หน้าแรก (ย้ายจาก http.HandleFunc มาใช้ Gin)
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "Hello from Azure with Gin!")
+	})
 
 	// GET: ดึงข้อมูลทั้งหมด
 	r.GET("/groups", func(c *gin.Context) {
@@ -121,5 +114,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
 	})
 
+	// 3. สั่งรัน Gin แค่จุดเดียวจบ (บรรทัดนี้จะ Blocking เอง)
+	fmt.Printf("Server is starting on port %s...\n", port)
 	r.Run(":" + port)
 }
