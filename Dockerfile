@@ -15,14 +15,14 @@ RUN go mod tidy
 COPY . .
 
 # Build ไฟล์ binary
-RUN GOOS=linux GOARCH=amd64 go build -o /app/main .
-ENTRYPOINT [/app]
+RUN GOOS=linux GOARCH=amd64 go build -o /main .
+
 
 # --- STAGE 2: Run ---
 FROM alpine:latest
 WORKDIR /root/
 # ก๊อปปี้ไฟล์ main มาจาก stage builder
-COPY --from=builder /app/main .
+COPY --from=builder /main .
 
 EXPOSE 8081
 CMD ["./main"]
