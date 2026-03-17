@@ -6,7 +6,7 @@ COPY go.mod ./
 COPY go.sum ./
 #RUN go mod download
 COPY . .
-RUN GOOS=linux GOARCH=amd64 go build -o main .
+#RUN GOOS=linux GOARCH=amd64 go build -o main .
 
 # Step 2: Run the binary
 FROM alpine:latest
