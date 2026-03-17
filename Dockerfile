@@ -3,7 +3,7 @@ FROM golang:1.22-alpine AS builder
 WORKDIR /app
 COPY go.mod ./
 # ถ้ามี go.sum ให้เอาคอมเมนต์ออก
-# COPY go.sum ./
+COPY go.sum ./
 RUN go mod download
 COPY . .
 RUN GOOS=linux GOARCH=amd64 go build -o main .
