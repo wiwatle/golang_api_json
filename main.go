@@ -47,7 +47,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-
+	http.ListenAndServe(":"+port, nil)
 	// 2. สร้าง Gin Engine (ใช้ตัวนี้แทน http.HandleFunc เดิม)
 	r := gin.Default()
 
