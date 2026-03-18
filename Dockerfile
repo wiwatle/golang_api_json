@@ -24,5 +24,5 @@ WORKDIR /root/
 # ก๊อปปี้ไฟล์ main มาจาก stage builder
 COPY --from=builder /main .
 
-EXPOSE 8081
+EXPOSE 8080
 CMD ["./main"]
