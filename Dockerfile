@@ -5,7 +5,7 @@ FROM golang:1.26-alpine AS builder
 # ติดตั้ง git เผื่อไว้สำหรับบาง library
 RUN apk add --no-cache git
 
-#WORKDIR /app
+WORKDIR /
 
 COPY go.mod ./
 COPY go.sum ./  
@@ -21,7 +21,7 @@ RUN GOOS=linux GOARCH=amd64 go build -o /main .
 
 # --- STAGE 2: Run ---
 FROM alpine:latest
-WORKDIR /root/
+WORKDIR /
 # ก๊อปปี้ไฟล์ main มาจาก stage builder
 COPY --from=builder /main .
 
