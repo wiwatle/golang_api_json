@@ -10,7 +10,8 @@ RUN apk add --no-cache git
 COPY go.mod ./
 COPY go.sum ./  
 RUN go mod download
-#RUN go mod tidy
+RUN go mod init
+RUN go mod tidy
 
 COPY . .
 
