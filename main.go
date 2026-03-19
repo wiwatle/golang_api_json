@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -52,13 +54,13 @@ func main() {
 	r := gin.Default()
 
 	// หน้าแรก (ย้ายจาก http.HandleFunc มาใช้ Gin)
-	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello from Azure with Gin!")
-	})
-	// ถ้าไม่มีบรรทัดแบบนี้ในโค้ด หน้าแรกจะขึ้น 404
-	//http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	//	fmt.Fprintf(w, "Hello, World!")
+	//r.GET("/", func(c *gin.Context) {
+	//	c.String(http.StatusOK, "Hello from Azure with Gin!")
 	//})
+	// ถ้าไม่มีบรรทัดแบบนี้ในโค้ด หน้าแรกจะขึ้น 404
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, World!")
+	})
 
 	// GET: ดึงข้อมูลทั้งหมด
 	r.GET("/groups", func(c *gin.Context) {
