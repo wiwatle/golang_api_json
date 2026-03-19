@@ -24,6 +24,10 @@ jobs:
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
 
+    - name: ACR Login
+      run: |
+        az acr login --name mygolangapi001
+
     - name: 'Build and Push Image'
       run: |
         docker build -t mygolangapi001.azurecr.io/my-go-api:${{ github.sha }} .
