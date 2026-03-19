@@ -2,10 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
-	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,84 +40,15 @@ func writeGroups(groups []Group) error {
 
 func main() {
 
-	// 1. ดึง Port จาก Environment
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, Azure! Running on port %s", port)
-	})
-
-	// 2. ต้อง Listen ที่ "0.0.0.0" เพื่อให้ Azure มองเห็น
-	fmt.Printf("Server starting at :%s\n", port)
-	err := http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		panic(err)
-	}
-	//http.ListenAndServe("0.0.0.0:8081", nil)
-	// 2. สร้าง Gin Engine (ใช้ตัวนี้แทน http.HandleFunc เดิม)
 	r := gin.Default()
 
-	// GET: ดึงข้อมูลทั้งหมด
-	r.GET("/groups", func(c *gin.Context) {
-		groups, _ := readGroups()
-		c.JSON(http.StatusOK, groups)
+	// เพิ่ม Route หน้าแรก
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status":  "success",
+			"message": "Go API is live on Azure!",
+		})
 	})
 
-	// POST: เพิ่มข้อมูลใหม่
-	r.POST("/groups", func(c *gin.Context) {
-		var newGroup Group
-		if err := c.ShouldBindJSON(&newGroup); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		groups, _ := readGroups()
-		newGroup.ID = len(groups) + 1 // แบบง่าย: ใช้ความยาว slice กำหนด ID
-		groups = append(groups, newGroup)
-
-		writeGroups(groups)
-		c.JSON(http.StatusCreated, newGroup)
-	})
-
-	// PUT: แก้ไขข้อมูลตาม ID
-	r.PUT("/groups/:id", func(c *gin.Context) {
-		id, _ := strconv.Atoi(c.Param("id"))
-		var updatedGroup Group
-		c.ShouldBindJSON(&updatedGroup)
-
-		groups, _ := readGroups()
-		for i, t := range groups {
-			if t.ID == id {
-				groups[i].Name = updatedGroup.Name
-				groups[i].Status = updatedGroup.Status
-				writeGroups(groups)
-				c.JSON(http.StatusOK, groups[i])
-				return
-			}
-		}
-		c.JSON(http.StatusNotFound, gin.H{"message": "Group not found"})
-	})
-
-	// DELETE: ลบข้อมูล
-	r.DELETE("/groups/:id", func(c *gin.Context) {
-		id, _ := strconv.Atoi(c.Param("id"))
-		groups, _ := readGroups()
-
-		newGroups := []Group{}
-		for _, t := range groups {
-			if t.ID != id {
-				newGroups = append(newGroups, t)
-			}
-		}
-
-		writeGroups(newGroups)
-		c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
-	})
-
-	// 3. สั่งรัน Gin แค่จุดเดียวจบ (บรรทัดนี้จะ Blocking เอง)
-	//fmt.Printf("Server is starting on port %s...\n", port)
-	r.Run(":" + port)
+	r.Run(":8080") // หรือระบุ Port ที่ต้องการ
 }
