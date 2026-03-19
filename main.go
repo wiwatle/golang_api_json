@@ -6,8 +6,6 @@ import (
 	"os"
 	"strconv"
 
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -49,7 +47,7 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe("0.0.0.0:8080", nil)
 	// 2. สร้าง Gin Engine (ใช้ตัวนี้แทน http.HandleFunc เดิม)
 	r := gin.Default()
 
@@ -58,8 +56,8 @@ func main() {
 	//	c.String(http.StatusOK, "Hello from Azure with Gin!")
 	//})
 	// ถ้าไม่มีบรรทัดแบบนี้ในโค้ด หน้าแรกจะขึ้น 404
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, World!")
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "I am alive!"})
 	})
 
 	// GET: ดึงข้อมูลทั้งหมด
