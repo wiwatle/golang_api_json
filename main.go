@@ -45,9 +45,9 @@ func main() {
 	// 1. ดึง Port จาก Environment
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "80"
 	}
-	http.ListenAndServe("0.0.0.0:8080", nil)
+	//http.ListenAndServe("0.0.0.0:8081", nil)
 	// 2. สร้าง Gin Engine (ใช้ตัวนี้แทน http.HandleFunc เดิม)
 	r := gin.Default()
 
