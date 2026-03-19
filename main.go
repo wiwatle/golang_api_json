@@ -52,7 +52,7 @@ func main() {
 	r := gin.Default()
 
 	// หน้าแรก (ย้ายจาก http.HandleFunc มาใช้ Gin)
-	r.GET("", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello from Azure with Gin!")
 	})
 	// ถ้าไม่มีบรรทัดแบบนี้ในโค้ด หน้าแรกจะขึ้น 404
