@@ -1,4 +1,4 @@
-module my-go-api
+module golang_api_json
 
 go 1.26.1
 
