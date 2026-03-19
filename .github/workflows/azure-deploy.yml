@@ -26,8 +26,8 @@ jobs:
 
     - name: 'Build and Push Image'
       run: |
-        docker build -t mygolangapiroot.azurecr.io/my-go-api:${{ github.sha }} .
-        docker push mygolangapiroot.azurecr.io/my-go-api:${{ github.sha }}
+        docker build -t mygolangapi001.azurecr.io/my-go-api:${{ github.sha }} .
+        docker push mygolangapi001.azurecr.io/my-go-api:${{ github.sha }}
 
     #- name: 'Build and Push to ACR'
     #  run: |
@@ -37,4 +37,5 @@ jobs:
       uses: azure/webapps-deploy@v3
       with:
         app-name: 'golang001'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         #images: 'mygolangapiroot.azurecr.io/my-go-api:${{ github.sha }}'
