@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -45,20 +46,22 @@ func main() {
 	// 1. ดึง Port จาก Environment
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "3000"
+		port = "8080"
+	}
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, Azure! Running on port %s", port)
+	})
+
+	// 2. ต้อง Listen ที่ "0.0.0.0" เพื่อให้ Azure มองเห็น
+	fmt.Printf("Server starting at :%s\n", port)
+	err := http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		panic(err)
 	}
 	//http.ListenAndServe("0.0.0.0:8081", nil)
 	// 2. สร้าง Gin Engine (ใช้ตัวนี้แทน http.HandleFunc เดิม)
 	r := gin.Default()
-
-	// หน้าแรก (ย้ายจาก http.HandleFunc มาใช้ Gin)
-	//r.GET("/", func(c *gin.Context) {
-	//	c.String(http.StatusOK, "Hello from Azure with Gin!")
-	//})
-	// ถ้าไม่มีบรรทัดแบบนี้ในโค้ด หน้าแรกจะขึ้น 404
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "I am alive!"})
-	})
 
 	// GET: ดึงข้อมูลทั้งหมด
 	r.GET("/groups", func(c *gin.Context) {

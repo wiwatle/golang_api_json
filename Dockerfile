@@ -25,6 +25,6 @@ WORKDIR /
 # ก๊อปปี้ไฟล์ main มาจาก stage builder
 COPY --from=builder /main .
 
-EXPOSE 3000
+EXPOSE 8080
 RUN chmod +x ./main
 CMD ["./main"]
