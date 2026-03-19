@@ -30,8 +30,8 @@ jobs:
 
     - name: 'Build and Push Image'
       run: |
-        docker build -t mygolangapi001.azurecr.io/my-go-api:${{ github.sha }} .
-        docker push mygolangapi001.azurecr.io/my-go-api:${{ github.sha }}
+        docker build -t mygolangapi001.azurecr.io/mygolangapi001:${{ github.sha }} .
+        docker push mygolangapi001.azurecr.io/mygolangapi001:${{ github.sha }}
 
     #- name: 'Build and Push to ACR'
     #  run: |
